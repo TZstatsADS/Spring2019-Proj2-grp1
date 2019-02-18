@@ -1,11 +1,12 @@
 # Define UI for app that draws a histogram ----
 library(leaflet)
-ui <- fluidPage(
+ui <- bootstrapPage(
+  tags$style(type="text/css","html,body{width:100%;height:100%}"),
   leafletOutput("map", width="100%", height=750),
   infoBoxOutput("update_time_Box"),
   absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                 draggable = TRUE, top = 125, left = "auto", right = 18, bottom = "auto",
-                width = '25%', height = "270", style = "opacity: 0.75",
+                width = '25%', height = "250", style = "opacity: 0.75",
                 
                 fluidRow(
                   column(10, offset = 1,
