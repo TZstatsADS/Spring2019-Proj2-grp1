@@ -3,7 +3,14 @@ library(leaflet)
 ui <- fluidPage(
   leafletOutput("map", width="100%", height=750),
   infoBoxOutput("update_time_Box"),
-  textInput("input_start_point",label="start"),
-  textInput("input_end_point",label="end"),
-  actionButton("submit",label="submit")
-)
+  absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
+                draggable = TRUE, top = 125, left = "auto", right = 18, bottom = "auto",
+                width = '25%', height = "270", style = "opacity: 0.75",
+                
+                fluidRow(
+                  column(10, offset = 1,
+                         textInput(inputId = "input_start_point", label = "Start Point", value = "Enter your location"),
+                         textInput(inputId = "input_end_point", label = "End Point", value = "Enter your destination"),
+                         checkboxInput(inputId="input_checkbox",label = "Could you please do us a favor?", value = FALSE),
+                         actionButton(inputId = "input_go", label = "Let's Go!")
+))))
