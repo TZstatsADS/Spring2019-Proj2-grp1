@@ -27,9 +27,9 @@ server <- function(input, output) {
     ## Popup content
     station_popup_info <- real.time.data$station %>%
       transmute(popup_info=paste0(
-        "<font size=\"2.5\" color=\"#0f6dc4\"><b>",name,"</b></font><br/>",
-        "<font size=\"1.5\" color=\"#2b3442\">Avail Bike: ",as.character(num_bikes_available),"</font><br/>",
-        "<font size=\"1.5\" color=\"#2b3442\">Avail Dock: ",as.character(num_docks_available),"</font><br/>"
+        "<font size=\"3.5\" color=\"#0f6dc4\"><b>",name,"</b></font><br/>",
+        "<font size=\"2.5\" color=\"#2b3442\">Avail Bike: ",as.character(num_bikes_available),"</font><br/>",
+        "<font size=\"2.5\" color=\"#2b3442\">Avail Dock: ",as.character(num_docks_available),"</font><br/>"
       ))
     station_popup_info <- lapply(seq(nrow(station_popup_info)), function(i) {
       station_popup_info[i,]
