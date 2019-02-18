@@ -3,6 +3,7 @@ library(rjson)
 library(RJSONIO)
 library(tidyverse)
 library(sp)
+library(shinydashboard)
 
 
 # The following is a function named 'real_time_data' that collects the real time data
@@ -79,5 +80,6 @@ real_time_data <- function(){
   
   # write.csv(station_joint_data,file ="./station.csv", row.names=FALSE)
   return_data$station <- station_joint_data
+  return_data$update_time <- Last_updated_time
   return(return_data)
 }
