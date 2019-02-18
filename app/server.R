@@ -14,7 +14,6 @@ server <- function(input, output) {
   }) 
   
   # Add dots to map
-  
   observe({
     ## Re-execute this reactive expression after 1 minute
     invalidateLater(60000, session = getDefaultReactiveDomain())
@@ -32,9 +31,6 @@ server <- function(input, output) {
     station_popup_info <- lapply(seq(nrow(station_popup_info)), function(i) {
       station_popup_info[i,]
     })
-    
-    ## The color of station status
-    #station_color <- colorFactor(c("#eb3323","#ffad47","#4ec42b"), domain = c("Few", "Plenty","Abundant"))
     
     ## Adding dots and popup
     leafletProxy("map")%>%
@@ -56,6 +52,14 @@ server <- function(input, output) {
     output$update_time_Box <- renderInfoBox({
       infoBox("Last updated time: ", Last_update_time$update_time)})
   })
-
   
+  # Return nearest available stations
+  ## Text input id: input_start_point,input_end_point
+  eventReactive(input$submit,
+                {
+                  nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
+                  output$available_start_point <- nearest.available.stations$start
+                  output$available_end_point <- nearest.available.stations$end
+                },
+                ignoreNULL = TRUE)
 }
