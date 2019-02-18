@@ -1,6 +1,7 @@
 # Packages and functions are all in "Global.R"
 
 server <- function(input, output) {
+  # The base map
   output$map <- renderLeaflet({
     leaflet() %>%
       addTiles(
@@ -12,24 +13,26 @@ server <- function(input, output) {
       setView(lng = -73.9759, lat = 40.7410, zoom = 13)
   }) 
   
-  real.time.data <- real_time_data()
+  
   station_color <- colorFactor(c("#eb3323","#ffad47","#4ec42b"), domain = c("Few", "Plenty","Abundant"))
-  
-  leafletProxy("map")%>%
-    addCircleMarkers(data=real.time.data$station,
-                     lng=real.time.data$station$lon,
-                     lat=real.time.data$station$lat,
-                     color = ~station_color(real.time.data$station$available_status),
-                     radius = ~4,
-                     #radius = ~(real.time.data$station$num_bikes_available/10),
-                     stroke = FALSE, fillOpacity = 0.8)
-    #addMarkers(data=real.time.data$station,lng=real.time.data$station$lon,lat=real.time.data$station$lat)
-  
-  Last_update_time <- reactiveValues(update_time = real.time.data$update_time)
-  
   observe({
-  output$update_time_Box <- renderInfoBox({
-    infoBox("Last updated time: ", Last_update_time$update_time)})
+    # Re-execute this reactive expression after 1 minute
+    invalidateLater(60000, session = getDefaultReactiveDomain())
+    
+    real.time.data <- real_time_data()
+    leafletProxy("map")%>%
+      clearMarkers()%>%
+      addCircleMarkers(data=real.time.data$station,
+                       lng=real.time.data$station$lon,
+                       lat=real.time.data$station$lat,
+                       color = ~station_color(real.time.data$station$available_status),
+                       radius = ~4,
+                       #radius = ~(real.time.data$station$num_bikes_available/10),
+                       stroke = FALSE, fillOpacity = 0.8)
+    #addMarkers(data=real.time.data$station,lng=real.time.data$station$lon,lat=real.time.data$station$lat)
+    
+    Last_update_time <- reactiveValues(update_time = real.time.data$update_time)
+    output$update_time_Box <- renderInfoBox({
+      infoBox("Last updated time: ", Last_update_time$update_time)})
   })
-  
 }
