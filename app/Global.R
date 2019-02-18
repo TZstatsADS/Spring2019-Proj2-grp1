@@ -71,13 +71,15 @@ real_time_data <- function(){
   ##                                             (35%,70%]    Plenty 
   ##                                             >70%         Abundant
   station_joint_data <- station_joint_data%>%
-    mutate(available_bike_percentage=num_bikes_available/(num_docks_available+num_bikes_available))%>%
+    mutate(available_bike_percentage=case_when(
+      (num_docks_available+num_bikes_available) == 0 ~ 0,
+      (num_docks_available+num_bikes_available) != 0 ~ num_bikes_available/(num_docks_available+num_bikes_available)
+             ))%>%
     mutate(available_status=case_when(
-      available_bike_percentage <= 0.35 ~ "Few",
-      available_bike_percentage > 0.35 & available_bike_percentage <=0.7 ~ "Plenty",
-      available_bike_percentage > 0.7 ~ "Abundant"
+      available_bike_percentage <= 0.1 ~ "#eb3323",
+      available_bike_percentage > 0.1 & available_bike_percentage <=0.5 ~ "#ffad47",
+      available_bike_percentage > 0.5 ~ "#4ec42b"
     ))
-  
   
   # write.csv(station_joint_data,file ="./station.csv", row.names=FALSE)
   return_data$station <- station_joint_data

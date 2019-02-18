@@ -14,8 +14,6 @@ server <- function(input, output) {
   }) 
   
   # Add dots to map
-  ## The color of station status
-  station_color <- colorFactor(c("#eb3323","#ffad47","#4ec42b"), domain = c("Few", "Plenty","Abundant"))
   
   observe({
     ## Re-execute this reactive expression after 1 minute
@@ -35,6 +33,8 @@ server <- function(input, output) {
       station_popup_info[i,]
     })
     
+    ## The color of station status
+    #station_color <- colorFactor(c("#eb3323","#ffad47","#4ec42b"), domain = c("Few", "Plenty","Abundant"))
     
     ## Adding dots and popup
     leafletProxy("map")%>%
@@ -42,8 +42,8 @@ server <- function(input, output) {
       addCircleMarkers(data=real.time.data$station,
                        lng=real.time.data$station$lon,
                        lat=real.time.data$station$lat,
-                       color = ~station_color(real.time.data$station$available_status),
-                       radius = ~4,
+                       color = real.time.data$station$available_status,
+                       radius = ~3.5,
                        #radius = ~(real.time.data$station$num_bikes_available/10),
                        stroke = FALSE, 
                        fillOpacity = 0.8,
