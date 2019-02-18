@@ -4,6 +4,7 @@ library(RJSONIO)
 library(tidyverse)
 library(sp)
 library(shinydashboard)
+library(htmltools)
 
 
 # The following is a function named 'real_time_data' that collects the real time data
