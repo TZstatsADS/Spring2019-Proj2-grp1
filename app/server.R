@@ -26,10 +26,9 @@ server <- function(input, output) {
     #addMarkers(data=real.time.data$station,lng=real.time.data$station$lon,lat=real.time.data$station$lat)
   
   Last_update_time <- reactiveValues(update_time = real.time.data$update_time)
-  
   observe({
-  output$update_time_Box <- renderInfoBox({
-    infoBox("Last updated time: ", Last_update_time$update_time)})
+  output$update_time_Box <-renderText({
+    Last_update_time$update_time })
   })
-  
+
 }
