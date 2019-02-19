@@ -90,12 +90,16 @@ real_time_data <- function(){
 # Each elements contains 5 columns: name, lat, lon, dist, bonus
 nearest_available_stations <- function(input_start,input_end)
 {
+  result <- list()
   ## !!! limited using google account api
   register_google(key = "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk")
   
   ## Get geo_coding
-  start_point <- geocode(input$input_start_point)
-  end_point <- geocode(input$input_end_point)
+  start_point <- geocode(input_start)
+  end_point <- geocode(input_end)
+  
+  result$input_start <- start_point
+  result$input_end <- end_point
   
   # Determine whether there are avilable station that within 1 km from the start point and end point
   available_start_point <- real.time.data$station %>%
@@ -119,7 +123,7 @@ nearest_available_stations <- function(input_start,input_end)
     arrange((dist))%>%
     head(3)
   
-  result <- list()
+  
   result$start <- available_start_point
   result$end <- available_end_point
   return(result)

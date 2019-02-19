@@ -57,20 +57,36 @@ server <- function(input, output) {
   ## Text input id: input_start_point,input_end_point
   observeEvent(input$input_go,
                {
+                 ## Use function to get available stations
                  nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
                  
+                 ## If there's no avilable station, prompt a message
                  if(nrow(nearest.available.stations$start)==0 | nrow(nearest.available.stations$end)==0 )
-                 {
-                   session = getDefaultReactiveDomain()
-                   session$sendCustomMessage(type = 'testmessage',
-                                             message = 'No avilable station near start/end. Please reenter.')
-                 }
-                 else
-                 {
-                   leafletProxy("map")%>%
-                     addMarkers(lng=nearest.available.stations$start$lon,
-                                lat=nearest.available.stations$start$lat)
-                 }
+                  {
+                    session = getDefaultReactiveDomain()
+                    session$sendCustomMessage(type = 'testmessage',
+                                              message = 'No avilable station near start/end. Please change the start/end location.')
+                  }
+                  else
+                  {
+                    ## Build icons
+                    icon.start <- makeAwesomeIcon(icon = "home", markerColor = "green",
+                                                library = "ion")
+                    icon.end <- makeAwesomeIcon(icon = "flag", markerColor = "blue", library = "fa",
+                                                  iconColor = "black")
+                    
+                    ## Plot the icons to the map
+                    leafletProxy("map")%>%
+                      addAwesomeMarkers(lng=nearest.available.stations$start$lon,
+                                        lat=nearest.available.stations$start$lat,
+                                        label=nearest.available.stations$start$name,
+                                        icon=icon.start)%>%
+                      addAwesomeMarkers(lng=nearest.available.stations$end$lon,
+                                        lat=nearest.available.stations$end$lat,
+                                        label=nearest.available.stations$end$name,
+                                        icon=icon.end)
+
+                  }
                },
                ignoreNULL = TRUE)
 
