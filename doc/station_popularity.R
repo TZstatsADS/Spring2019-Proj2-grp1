@@ -1,6 +1,7 @@
 library(dplyr)
-nycdata <- read.csv("/Users/yujiewang/Google Drive (yw3285@columbia.edu)/Spring2019-Proj2-grp1/data/201901-citibike-tripdata.csv", stringsAsFactors = FALSE)
-jcdata <- read.csv("/Users/yujiewang/Google Drive (yw3285@columbia.edu)/Spring2019-Proj2-grp1/data/JC-201901-citibike-tripdata.csv", stringsAsFactors = FALSE)
+setwd("/Users/yujiewang/Google Drive (yw3285@columbia.edu)/Spring2019-Proj2-grp1/doc")
+nycdata <- read.csv("../data/201901-citibike-tripdata.csv", stringsAsFactors = FALSE)
+jcdata <- read.csv("../data/JC-201901-citibike-tripdata.csv", stringsAsFactors = FALSE)
 data <- rbind(nycdata, jcdata)
 start_count = data %>% 
   group_by(start.station.name) %>%
@@ -22,4 +23,4 @@ popularity_data = data %>%
 
 colnames(popularity_data) <- c("station.id", "station.name", "station.latitude", "station.longitude", "total_count")
 
-write_csv(popularity_data)
+write_csv(popularity_data, path = "../output/popularity_data.csv")
