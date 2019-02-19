@@ -28,6 +28,8 @@ ui <- bootstrapPage(
                          checkboxInput(inputId="input_checkbox",label = "Could you please do us a favor?", value = FALSE),
 
                          actionButton(inputId = "input_go", label = "Let's Go!"),
+                         
+                         ## The following is the autocomplete feature
                          HTML(paste0("
             <script>
             function initAutocomplete() {
