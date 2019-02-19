@@ -61,19 +61,27 @@ server <- function(input, output) {
                  nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
                  
                  ## If there's no avilable station, prompt a message
-                 if(nrow(nearest.available.stations$start)==0 | nrow(nearest.available.stations$end)==0 )
+                 if(nrow(nearest.available.stations$start)==0)
                   {
                     session = getDefaultReactiveDomain()
                     session$sendCustomMessage(type = 'testmessage',
-                                              message = 'No avilable station near start/end. Please change the start/end location.')
+                                              message = 'No avilable station near start location. Please change the start location.')
                   }
-                  else
+                 else if((nrow(nearest.available.stations$end)+nrow(nearest.available.stations$bonus))==0)
+                  {
+                   session = getDefaultReactiveDomain()
+                   session$sendCustomMessage(type = 'testmessage',
+                                             message = 'No avilable station near end location. Please change the end location.')
+                  }
+                 else
                   {
                     ## Build icons
                     icon.start <- makeAwesomeIcon(icon = "home", markerColor = "green",
                                                 library = "ion")
                     icon.end <- makeAwesomeIcon(icon = "flag", markerColor = "blue", library = "fa",
-                                                  iconColor = "black")
+                                                  iconColor = "#ffffff")
+                    icon.bonus <- makeAwesomeIcon(icon = "flag", markerColor = "blue", library = "fa",
+                                                iconColor = "#ff9400")
                     
                     ## Plot the icons to the map
                     leafletProxy("map")%>%
@@ -84,8 +92,11 @@ server <- function(input, output) {
                       addAwesomeMarkers(lng=nearest.available.stations$end$lon,
                                         lat=nearest.available.stations$end$lat,
                                         label=nearest.available.stations$end$name,
-                                        icon=icon.end)
-
+                                        icon=icon.end)%>%
+                      addAwesomeMarkers(lng=nearest.available.stations$bonus$lon,
+                                        lat=nearest.available.stations$bonus$lat,
+                                        label=nearest.available.stations$bonus$name,
+                                        icon=icon.bonus)
                   }
                },
                ignoreNULL = TRUE)

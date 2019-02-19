@@ -30,20 +30,20 @@ ui <- bootstrapPage(
                          actionButton(inputId = "input_go", label = "Let's Go!"),
                          
                          ## The following is the autocomplete feature
-                         HTML(paste0("
-            <script>
-            function initAutocomplete() {
-            new google.maps.places.Autocomplete(
-            (document.getElementById('input_start_point')),{types: ['geocode']}
-            );
-             new google.maps.places.Autocomplete(
-            (document.getElementById('input_end_point')),{types: ['geocode']}
-            );
-            }
-            </script>
-            <script src='https://maps.googleapis.com/maps/api/js?key=", key,"&libraries=places&callback=initAutocomplete'
-            async defer></script>
-    ")),
+    #                      HTML(paste0("
+    #         <script>
+    #         function initAutocomplete() {
+    #         new google.maps.places.Autocomplete(
+    #         (document.getElementById('input_start_point')),{types: ['geocode']}
+    #         );
+    #          new google.maps.places.Autocomplete(
+    #         (document.getElementById('input_end_point')),{types: ['geocode']}
+    #         );
+    #         }
+    #         </script>
+    #         <script src='https://maps.googleapis.com/maps/api/js?key=", key,"&libraries=places&callback=initAutocomplete'
+    #         async defer></script>
+    # ")),
                          
   # This java script file controls message
   includeScript("message_handler.js")
