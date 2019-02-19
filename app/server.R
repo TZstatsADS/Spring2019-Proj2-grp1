@@ -57,15 +57,17 @@ server <- function(input, output) {
   ## Text input id: input_start_point,input_end_point
   eventReactive(input$input_go,
                 {
-                  nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
-                  if(nrow(nearest.available.stations$start)==0 | nrow(nearest.available.stations$end)==0 )
-                  {
+                  # nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
+                  session$sendCustomMessage(type = 'testmessage',
+                                            message = 'No avilable station near start/end. Please reenter.')
+                  #if(nrow(nearest.available.stations$start)==0 | nrow(nearest.available.stations$end)==0 )
+                  #{
                     
-                  }
-                  else
-                  {
+                  #}
+                  #else
+                  #{
                     
-                  }
+                  #}
                 },
                 ignoreNULL = TRUE)
 

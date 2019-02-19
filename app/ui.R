@@ -26,7 +26,12 @@ ui <- bootstrapPage(
                          checkboxInput(inputId="input_checkbox",label = "Could you please do us a favor?", value = FALSE),
                          actionButton(inputId = "input_go", label = "Let's Go!"))
                          )
-                )
+                ),
+  
+  # This java script file controls message
+  tags$head(tags$script(src = "message-handler.js"))
+  
+  
 
 )
 
