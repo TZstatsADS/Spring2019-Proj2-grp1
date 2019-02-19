@@ -1,10 +1,13 @@
 # Loading packages
+library(leaflet)
 library(rjson)
 library(RJSONIO)
 library(tidyverse)
 library(sp)
 library(shinydashboard)
 library(htmltools)
+library(ggmap)
+library(geosphere)
 
 
 # The following is a function named 'real_time_data' that collects the real time data
@@ -67,22 +70,74 @@ real_time_data <- function(){
   station_joint_data$num_docks_available <- as.numeric(as.character(station_joint_data$num_docks_available))
   
   ## Add a column "available_status"
-  ## avilable_bike:(avilable_bike+avilable_dock) <= 35%       Few
-  ##                                             (35%,70%]    Plenty 
-  ##                                             >70%         Abundant
+  ## num_bikes_available <= 1      Few
+  ##                     (1,3]     Plenty 
+  ##                     >3        Abundant
   station_joint_data <- station_joint_data%>%
-    mutate(available_bike_percentage=case_when(
-      (num_docks_available+num_bikes_available) == 0 ~ 0,
-      (num_docks_available+num_bikes_available) != 0 ~ num_bikes_available/(num_docks_available+num_bikes_available)
-             ))%>%
     mutate(available_status=case_when(
-      available_bike_percentage <= 0.1 ~ "#eb3323",
-      available_bike_percentage > 0.1 & available_bike_percentage <=0.5 ~ "#ffad47",
-      available_bike_percentage > 0.5 ~ "#4ec42b"
+      num_bikes_available <= 1 ~ "#eb3323",
+      num_bikes_available > 1 & num_bikes_available <=3 ~ "#ffad47",
+      num_bikes_available > 3 ~ "#4ec42b"
     ))
-  
-  # write.csv(station_joint_data,file ="./station.csv", row.names=FALSE)
+
   return_data$station <- station_joint_data
   return_data$update_time <- Last_updated_time
   return(return_data)
+}
+
+# The following function returns the nearest available stations
+# The return value is a list of two elements
+# Each elements contains 5 columns: name, lat, lon, dist, bonus
+nearest_available_stations <- function(input_start,input_end)
+{
+  ## !!! limited using google account api
+  register_google(key = "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk")
+  
+  ## Get geo_coding
+  start_point <- geocode(input$input_start_point)
+  end_point <- geocode(input$input_end_point)
+  
+  # Determine whether there are avilable station that within 1 km from the start point and end point
+  available_start_point <- real.time.data$station %>%
+    filter(num_bikes_available>0)%>% # Filter stations that have avilable bikes
+    mutate(dist=as.vector(distm(cbind(lon,lat), start_point, fun =distGeo)))%>%
+    mutate(bonus=0)%>%
+    filter(dist<=1000)%>%
+    select(name,lat,lon,dist,bonus)%>%
+    arrange((dist))%>%
+    head(3)
+  
+  #if(nrow(available_start_point)<3)
+  #{
+  #  for(i in (nrow(available_start_point)+1):3)
+  #  {
+  #    available_start_point[i,] <- c(NA,NA,NA,NA,NA)
+  #  }
+  #}
+  
+  available_end_point <- real.time.data$station %>%
+    filter(num_docks_available>0)%>% # Filter stations that have avilable bikes
+    mutate(dist=as.vector(distm(cbind(lon,lat), end_point, fun =distGeo)))%>%
+    mutate(bonus=case_when(
+      num_bikes_available <=3 ~ 1,
+      TRUE ~ 0
+    ))%>%
+    filter(dist<=1000)%>%
+    select(name,lat,lon,dist,bonus)%>%
+    arrange((dist))%>%
+    head(3)
+  
+  #if(nrow(available_end_point)<3)
+  #{
+  #  for(i in (nrow(available_end_point)+1):3)
+  #  {
+  #    available_end_point[i,] <- c(NA,NA,NA,NA,NA)
+  #  }
+  #}
+  
+  result <- list()
+  result$start <- available_start_point
+  result$end <- available_end_point
+  return(result)
+  
 }
