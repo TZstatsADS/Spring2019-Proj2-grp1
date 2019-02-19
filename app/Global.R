@@ -101,39 +101,39 @@ nearest_available_stations <- function(input_start,input_end)
   available_start_point <- real.time.data$station %>%
     filter(num_bikes_available>0)%>% # Filter stations that have avilable bikes
     mutate(dist=as.vector(distm(cbind(lon,lat), start_point, fun =distGeo)))%>%
-    filter(dist<=1000)%>%
     mutate(bonus=0)%>%
+    filter(dist<=1000)%>%
     select(name,lat,lon,dist,bonus)%>%
     arrange((dist))%>%
     head(3)
   
-  if(nrow(available_start_point)<3)
-  {
-    for(i in (nrow(available_start_point)+1):3)
-    {
-      available_start_point[i,] <- c(NA,NA,NA,NA,NA)
-    }
-  }
+  #if(nrow(available_start_point)<3)
+  #{
+  #  for(i in (nrow(available_start_point)+1):3)
+  #  {
+  #    available_start_point[i,] <- c(NA,NA,NA,NA,NA)
+  #  }
+  #}
   
   available_end_point <- real.time.data$station %>%
     filter(num_docks_available>0)%>% # Filter stations that have avilable bikes
     mutate(dist=as.vector(distm(cbind(lon,lat), end_point, fun =distGeo)))%>%
-    filter(dist<=1000)%>%
     mutate(bonus=case_when(
       num_bikes_available <=3 ~ 1,
       TRUE ~ 0
     ))%>%
+    filter(dist<=1000)%>%
     select(name,lat,lon,dist,bonus)%>%
     arrange((dist))%>%
     head(3)
   
-  if(nrow(available_end_point)<3)
-  {
-    for(i in (nrow(available_end_point)+1):3)
-    {
-      available_end_point[i,] <- c(NA,NA,NA,NA,NA)
-    }
-  }
+  #if(nrow(available_end_point)<3)
+  #{
+  #  for(i in (nrow(available_end_point)+1):3)
+  #  {
+  #    available_end_point[i,] <- c(NA,NA,NA,NA,NA)
+  #  }
+  #}
   
   result <- list()
   result$start <- available_start_point

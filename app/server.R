@@ -55,11 +55,17 @@ server <- function(input, output) {
   
   # Return nearest available stations
   ## Text input id: input_start_point,input_end_point
-  eventReactive(input$submit,
+  eventReactive(input$input_go,
                 {
                   nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
-                  output$available_start_point <- nearest.available.stations$start
-                  output$available_end_point <- nearest.available.stations$end
+                  if(nrow(nearest.available.stations$start)==0 | nrow(nearest.available.stations$end)==0 )
+                  {
+                    
+                  }
+                  else
+                  {
+                    
+                  }
                 },
                 ignoreNULL = TRUE)
 
