@@ -1,4 +1,5 @@
 # Loading packages
+library(leaflet)
 library(rjson)
 library(RJSONIO)
 library(tidyverse)
