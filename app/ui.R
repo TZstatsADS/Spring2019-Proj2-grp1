@@ -1,6 +1,7 @@
 
 # Define UI for app that draws a histogram ----
 library(leaflet)
+key <- "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk"
 ui <- bootstrapPage(
   tags$style(type="text/css","html,body{width:100%;height:100%}"),
   leafletOutput("map", width="100%", height="100%"),
@@ -15,9 +16,27 @@ ui <- bootstrapPage(
                 
                 fluidRow(
                   column(10, offset = 1,
-                         textInput(inputId = "input_start_point", label = "Start Point", value = "Enter your location"),
-                         textInput(inputId = "input_end_point", label = "End Point", value = "Enter your destination"),
+                         textInput(inputId = "input_start_point", label = "Start Point"),
+                         textInput(inputId = "input_end_point", label = "End Point"),
                          checkboxInput(inputId="input_checkbox",label = "Could you please do us a favor?", value = FALSE),
-                         actionButton(inputId = "input_go", label = "Let's Go!")
+                         actionButton(inputId = "input_go", label = "Let's Go!"),
+                         HTML(paste0("
+            <script>
+            function initAutocomplete() {
+            new google.maps.places.Autocomplete(
+            (document.getElementById('input_start_point')),{types: ['geocode']}
+            );
+             new google.maps.places.Autocomplete(
+            (document.getElementById('input_end_point')),{types: ['geocode']}
+            );
+            }
+            </script>
+            <script src='https://maps.googleapis.com/maps/api/js?key=", key,"&libraries=places&callback=initAutocomplete'
+            async defer></script>
+    "))
+                         
+                    
+                         
+                        
 ))))
 

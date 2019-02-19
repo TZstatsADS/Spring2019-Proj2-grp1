@@ -8,7 +8,7 @@ library(shinydashboard)
 library(htmltools)
 library(ggmap)
 library(geosphere)
-
+library(googleway)
 
 # The following is a function named 'real_time_data' that collects the real time data
 # Every time being called, it returns a list of tables

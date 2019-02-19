@@ -12,7 +12,8 @@ server <- function(input, output) {
       ) %>%
       setView(lng = -73.9759, lat = 40.7410, zoom = 13)
   }) 
-  
+
+    
   real.time.data <- real_time_data()
   station_color <- colorFactor(c("#eb3323","#ffad47","#4ec42b"), domain = c("Few", "Plenty","Abundant"))
   
