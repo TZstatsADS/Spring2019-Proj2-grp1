@@ -17,14 +17,14 @@ ui <- bootstrapPage(
   includeCSS("styles.css"), # This css file contains fade out efect for following panel
   # Panel for entering start point and end point
   absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
-                draggable = TRUE, top = 60, left = 18, right = "auto", bottom = "auto",
+                draggable = TRUE, top = 85, left = 18, right = "auto", bottom = "auto",
                 width = 300, height = 300, 
                 h4("Citi Bike Route",align = "center"),
                 
                 fluidRow(
                   column(10, offset = 1,
-                         textInput(inputId = "input_start_point", label = "Start Point"),
-                         textInput(inputId = "input_end_point", label = "End Point"),
+                         textInput(inputId = "input_start_point", label = "From"),
+                         textInput(inputId = "input_end_point", label = "To"),
                          checkboxInput(inputId="input_checkbox",label = "Could you please do us a favor?", value = FALSE),
 
                          actionButton(inputId = "input_go", label = "Let's Go!"),
