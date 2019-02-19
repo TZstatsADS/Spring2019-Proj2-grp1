@@ -19,7 +19,7 @@ ui <- bootstrapPage(
   includeCSS("styles.css"), # This css file contains fade out efect for following panel
   # Panel for entering start point and end point
   absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
-                draggable = TRUE, top = 60, left = "auto", right = 18, bottom = "auto",
+                draggable = TRUE, top = 60, left = 18, right = "auto", bottom = "auto",
                 width = 300, height = 300, 
                 h4("Citi Bike Route",align = "center"),
                 
