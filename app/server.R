@@ -13,13 +13,6 @@ server <- function(input, output) {
       setView(lng = -73.9759, lat = 40.7410, zoom = 13)
   }) 
 
-
-    
-  real.time.data <- real_time_data()
-  station_color <- colorFactor(c("#eb3323","#ffad47","#4ec42b"), domain = c("Few", "Plenty","Abundant"))
-  
-
-
   # Add dots to map
   observe({
     ## Re-execute this reactive expression after 1 minute
@@ -62,20 +55,23 @@ server <- function(input, output) {
   
   # Return nearest available stations
   ## Text input id: input_start_point,input_end_point
-  eventReactive(input$input_go,
-                {
-                  # nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
-                  session$sendCustomMessage(type = 'testmessage',
-                                            message = 'No avilable station near start/end. Please reenter.')
-                  #if(nrow(nearest.available.stations$start)==0 | nrow(nearest.available.stations$end)==0 )
-                  #{
-                    
-                  #}
-                  #else
-                  #{
-                    
-                  #}
-                },
-                ignoreNULL = TRUE)
+  observeEvent(input$input_go,
+               {
+                 nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
+                 
+                 if(nrow(nearest.available.stations$start)==0 | nrow(nearest.available.stations$end)==0 )
+                 {
+                   session = getDefaultReactiveDomain()
+                   session$sendCustomMessage(type = 'testmessage',
+                                             message = 'No avilable station near start/end. Please reenter.')
+                 }
+                 else
+                 {
+                   leafletProxy("map")%>%
+                     addMarkers(lng=nearest.available.stations$start$lon,
+                                lat=nearest.available.stations$start$lat)
+                 }
+               },
+               ignoreNULL = TRUE)
 
 }

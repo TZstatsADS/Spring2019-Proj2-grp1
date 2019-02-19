@@ -1,8 +1,6 @@
 # Define UI for app
 
-# Define UI for app that draws a histogram ----
-library(leaflet)
-key <- "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk"
+key <- "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk" # Google API
 
 ui <- bootstrapPage(
   # Fill the webpage with the map
@@ -43,9 +41,10 @@ ui <- bootstrapPage(
             </script>
             <script src='https://maps.googleapis.com/maps/api/js?key=", key,"&libraries=places&callback=initAutocomplete'
             async defer></script>
-    "))
+    ")),
                          
-                    
+  # This java script file controls message
+  includeScript("message_handler.js")
                          
                         
 ))))
