@@ -12,11 +12,14 @@ server <- function(input, output) {
       ) %>%
       setView(lng = -73.9759, lat = 40.7410, zoom = 13)
   }) 
+<<<<<<< HEAD
 
     
   real.time.data <- real_time_data()
   station_color <- colorFactor(c("#eb3323","#ffad47","#4ec42b"), domain = c("Few", "Plenty","Abundant"))
   
+=======
+>>>>>>> 1fd84b5240b5c1e8fb57130147f2bacbebf0fd0b
 
   # Add dots to map
   observe({
@@ -60,11 +63,19 @@ server <- function(input, output) {
   
   # Return nearest available stations
   ## Text input id: input_start_point,input_end_point
-  eventReactive(input$submit,
+  eventReactive(input$input_go,
                 {
-                  nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
-                  output$available_start_point <- nearest.available.stations$start
-                  output$available_end_point <- nearest.available.stations$end
+                  # nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
+                  session$sendCustomMessage(type = 'testmessage',
+                                            message = 'No avilable station near start/end. Please reenter.')
+                  #if(nrow(nearest.available.stations$start)==0 | nrow(nearest.available.stations$end)==0 )
+                  #{
+                    
+                  #}
+                  #else
+                  #{
+                    
+                  #}
                 },
                 ignoreNULL = TRUE)
 
