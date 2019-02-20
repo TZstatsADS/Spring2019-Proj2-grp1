@@ -57,6 +57,9 @@ server <- function(input, output) {
   ## Text input id: input_start_point,input_end_point
   observeEvent(input$input_go,
                {
+                 ## Get refreshed data
+                 real.time.data <- real_time_data()
+                 
                  ## Use function to get available stations
                  nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point,real.time.data)
                  
@@ -72,9 +75,12 @@ server <- function(input, output) {
                    session = getDefaultReactiveDomain()
                    session$sendCustomMessage(type = 'testmessage',
                                              message = 'No avilable station near end location. Please change the end location.')
-                  }
+                 }
+                 ## Mark start/end station on the map
+                 ## Define the final_start_point and final_end_point for drawing the routes
                  else
                   {
+                    ## This is a vector containing two elements: lng and lat
                     final_start_point <- c(nearest.available.stations$start$lon,nearest.available.stations$start$lat)
 
                     ## Build icons
@@ -104,16 +110,17 @@ server <- function(input, output) {
                       nearest.available.stations$end <- nearest.available.stations$end%>%
                         head(1)
                     }
-
+                    
+                    ## This is a vector containing two elements: lng and lat
                     final_end_point <- c(nearest.available.stations$end$lon,nearest.available.stations$end$lat)
                       ### End station
-                      leafletProxy("map")%>%
-                        removeMarker(layerId = "b")%>%
-                        addAwesomeMarkers(lng=nearest.available.stations$end$lon,
-                                          lat=nearest.available.stations$end$lat,
-                                          label=nearest.available.stations$end$name,
-                                          icon=icon.end,
-                                          layerId = "b")
+                    leafletProxy("map")%>%
+                      removeMarker(layerId = "b")%>%
+                      addAwesomeMarkers(lng=nearest.available.stations$end$lon,
+                                        lat=nearest.available.stations$end$lat,
+                                        label=nearest.available.stations$end$name,
+                                        icon=icon.end,
+                                        layerId = "b")
 
                   }
                },
