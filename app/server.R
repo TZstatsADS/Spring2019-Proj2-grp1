@@ -11,6 +11,7 @@ server <- function(input, output) {
         attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
       ) %>%
       setView(lng = -73.9759, lat = 40.7410, zoom = 13)
+      
   }) 
 
 
@@ -46,7 +47,7 @@ server <- function(input, output) {
                        lng=real.time.data$station$lon,
                        lat=real.time.data$station$lat,
                        color = real.time.data$station$available_status,
-                       radius = ~3.5,
+                       radius = ~2.5,
                        #radius = ~(real.time.data$station$num_bikes_available/10),
                        stroke = FALSE, 
                        fillOpacity = 0.8,
