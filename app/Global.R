@@ -86,7 +86,7 @@ real_time_data <- function(){
 }
 
 # The following function returns the nearest available stations
-# The return value is a list of three elements: start, end & bonus
+# The return value is a list of two elements: start, end
 # Each elements contains 5 columns: name, lat, lon, dist, num
 nearest_available_stations <- function(input_start,input_end)
 {
@@ -95,6 +95,8 @@ nearest_available_stations <- function(input_start,input_end)
   register_google(key = "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk")
   
   ## Get geo_coding
+  
+  
   start_point <- geocode(input_start)
   end_point <- geocode(input_end)
   
@@ -108,27 +110,17 @@ nearest_available_stations <- function(input_start,input_end)
     filter(dist<=1000)%>%
     select(name,lat,lon,dist,num_bikes_available)%>%
     arrange((dist))%>%
-    head(3)
+    head(1)
   
-  around_end_point <- real.time.data$station %>%
+  available_end_point <- real.time.data$station %>%
     filter(num_docks_available>0)%>% # Filter stations that have avilable bikes
     mutate(dist=as.vector(distm(cbind(lon,lat), end_point, fun =distGeo)))%>%
     filter(dist<=1000)%>%
     arrange((dist))%>%
-    head(3)
+    select(name,lat,lon,dist,num_bikes_available)
 
-  available_end_point <- around_end_point %>%
-    filter(num_bikes_available >1)%>%
-    select(name,lat,lon,dist,num_docks_available)
-
-  available_bonus_point <- around_end_point %>%
-    filter(num_bikes_available <=1)%>%
-    select(name,lat,lon,dist,num_docks_available)
-  
   
   result$start <- available_start_point
   result$end <- available_end_point
-  result$bonus <- available_bonus_point
   return(result)
-  
 }
