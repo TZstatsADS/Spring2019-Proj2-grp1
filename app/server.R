@@ -58,7 +58,7 @@ server <- function(input, output) {
   observeEvent(input$input_go,
                {
                  ## Use function to get available stations
-                 nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
+                 nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point,real.time.data)
                  
                  ## If there's no avilable station, prompt a message
                  if(nrow(nearest.available.stations$start)==0)
@@ -76,13 +76,13 @@ server <- function(input, output) {
                  else
                   {
                     final_start_point <- c(nearest.available.stations$start$lon,nearest.available.stations$start$lat)
-                    
+
                     ## Build icons
                     icon.start <- makeAwesomeIcon(icon = "home", markerColor = "green",
                                                 library = "ion")
                     icon.end <- makeAwesomeIcon(icon = "flag", markerColor = "blue", library = "fa",
                                                   iconColor = "#ffffff")
-                    
+
                     ## Plot the icons to the map
                     leafletProxy("map")%>%
                       removeMarker(layerId = "a")%>%
@@ -92,7 +92,7 @@ server <- function(input, output) {
                                         label=nearest.available.stations$start$name,
                                         icon=icon.start,
                                         layerId = "a")
-                    
+
                     if(input$input_checkbox == TRUE)
                     {
                       nearest.available.stations$end <- nearest.available.stations$end%>%
@@ -114,7 +114,7 @@ server <- function(input, output) {
                                           label=nearest.available.stations$end$name,
                                           icon=icon.end,
                                           layerId = "b")
-                    
+
                   }
                },
                ignoreNULL = TRUE)

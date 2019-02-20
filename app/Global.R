@@ -88,14 +88,22 @@ real_time_data <- function(){
 # The following function returns the nearest available stations
 # The return value is a list of two elements: start, end
 # Each elements contains 5 columns: name, lat, lon, dist, num
-nearest_available_stations <- function(input_start,input_end)
+nearest_available_stations <- function(input_start,input_end,data)
 {
   result <- list()
   ## !!! limited using google account api
   register_google(key = "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk")
   
   ## Get geo_coding
+  if(substr(input_start,ifelse(nchar(input_start)-19>0,nchar(input_start)-19,1),nchar(input_start)) != ", New York, NY, USA")
+  {
+    input_start <- paste0(input_start,", New York, NY, USA")
+  }
   
+  if(substr(input_end,ifelse(nchar(input_end)-19>0,nchar(input_end)-19,1),nchar(input_end)) != ", New York, NY, USA")
+  {
+    input_end <- paste0(input_end,", New York, NY, USA")
+  }
   
   start_point <- geocode(input_start)
   end_point <- geocode(input_end)
@@ -104,7 +112,7 @@ nearest_available_stations <- function(input_start,input_end)
   result$input_end <- end_point
   
   # Determine whether there are avilable station that within 1 km from the start point and end point
-  available_start_point <- real.time.data$station %>%
+  available_start_point <- data$station %>%
     filter(num_bikes_available>0)%>% # Filter stations that have avilable bikes
     mutate(dist=as.vector(distm(cbind(lon,lat), start_point, fun =distGeo)))%>%
     filter(dist<=1000)%>%
@@ -112,7 +120,7 @@ nearest_available_stations <- function(input_start,input_end)
     arrange((dist))%>%
     head(1)
   
-  available_end_point <- real.time.data$station %>%
+  available_end_point <- data$station %>%
     filter(num_docks_available>0)%>% # Filter stations that have avilable bikes
     mutate(dist=as.vector(distm(cbind(lon,lat), end_point, fun =distGeo)))%>%
     filter(dist<=1000)%>%
