@@ -14,16 +14,9 @@ server <- function(input, output) {
       
   }) 
 
-
-    
-  real.time.data <- real_time_data()
-  station_color <- colorFactor(c("#eb3323","#ffad47","#4ec42b"), domain = c("Few", "Plenty","Abundant"))
-  
-
-
   # Add dots to map
   observe({
-    ## Re-execute this reactive expression after 1 minute
+    ## Re-execute this reactive expression every minute
     invalidateLater(60000, session = getDefaultReactiveDomain())
     
     ## Refresh the data
@@ -63,20 +56,68 @@ server <- function(input, output) {
   
   # Return nearest available stations
   ## Text input id: input_start_point,input_end_point
-  eventReactive(input$input_go,
-                {
-                  # nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
-                  session$sendCustomMessage(type = 'testmessage',
-                                            message = 'No avilable station near start/end. Please reenter.')
-                  #if(nrow(nearest.available.stations$start)==0 | nrow(nearest.available.stations$end)==0 )
-                  #{
+  observeEvent(input$input_go,
+               {
+                 ## Use function to get available stations
+                 nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point)
+                 
+                 ## If there's no avilable station, prompt a message
+                 if(nrow(nearest.available.stations$start)==0)
+                  {
+                    session = getDefaultReactiveDomain()
+                    session$sendCustomMessage(type = 'testmessage',
+                                              message = 'No avilable station near start location. Please change the start location.')
+                  }
+                 else if(nrow(nearest.available.stations$end)==0)
+                  {
+                   session = getDefaultReactiveDomain()
+                   session$sendCustomMessage(type = 'testmessage',
+                                             message = 'No avilable station near end location. Please change the end location.')
+                  }
+                 else
+                  {
+                    final_start_point <- c(nearest.available.stations$start$lon,nearest.available.stations$start$lat)
                     
-                  #}
-                  #else
-                  #{
+                    ## Build icons
+                    icon.start <- makeAwesomeIcon(icon = "home", markerColor = "green",
+                                                library = "ion")
+                    icon.end <- makeAwesomeIcon(icon = "flag", markerColor = "blue", library = "fa",
+                                                  iconColor = "#ffffff")
                     
-                  #}
-                },
-                ignoreNULL = TRUE)
+                    ## Plot the icons to the map
+                    leafletProxy("map")%>%
+                      removeMarker(layerId = "a")%>%
+                      ### start station
+                      addAwesomeMarkers(lng=nearest.available.stations$start$lon,
+                                        lat=nearest.available.stations$start$lat,
+                                        label=nearest.available.stations$start$name,
+                                        icon=icon.start,
+                                        layerId = "a")
+                    
+                    if(input$input_checkbox == TRUE)
+                    {
+                      nearest.available.stations$end <- nearest.available.stations$end%>%
+                        arrange(num_bikes_available)%>%
+                        head(1)
+                    }
+                    else
+                    {
+                      nearest.available.stations$end <- nearest.available.stations$end%>%
+                        head(1)
+                    }
+
+                    final_end_point <- c(nearest.available.stations$end$lon,nearest.available.stations$end$lat)
+                      ### End station
+                      leafletProxy("map")%>%
+                        removeMarker(layerId = "b")%>%
+                        addAwesomeMarkers(lng=nearest.available.stations$end$lon,
+                                          lat=nearest.available.stations$end$lat,
+                                          label=nearest.available.stations$end$name,
+                                          icon=icon.end,
+                                          layerId = "b")
+                    
+                  }
+               },
+               ignoreNULL = TRUE)
 
 }

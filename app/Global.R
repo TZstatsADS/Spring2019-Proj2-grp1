@@ -86,58 +86,39 @@ real_time_data <- function(){
 }
 
 # The following function returns the nearest available stations
-# The return value is a list of two elements
-# Each elements contains 5 columns: name, lat, lon, dist, bonus
+# The return value is a list of two elements: start, end
+# Each elements contains 5 columns: name, lat, lon, dist, num
 nearest_available_stations <- function(input_start,input_end)
 {
+  result <- list()
   ## !!! limited using google account api
   register_google(key = "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk")
   
   ## Get geo_coding
-  start_point <- geocode(input$input_start_point)
-  end_point <- geocode(input$input_end_point)
+  start_point <- geocode(input_start)
+  end_point <- geocode(input_end)
+  
+  result$input_start <- start_point
+  result$input_end <- end_point
   
   # Determine whether there are avilable station that within 1 km from the start point and end point
   available_start_point <- real.time.data$station %>%
     filter(num_bikes_available>0)%>% # Filter stations that have avilable bikes
     mutate(dist=as.vector(distm(cbind(lon,lat), start_point, fun =distGeo)))%>%
-    mutate(bonus=0)%>%
     filter(dist<=1000)%>%
-    select(name,lat,lon,dist,bonus)%>%
+    select(name,lat,lon,dist,num_bikes_available)%>%
     arrange((dist))%>%
-    head(3)
-  
-  #if(nrow(available_start_point)<3)
-  #{
-  #  for(i in (nrow(available_start_point)+1):3)
-  #  {
-  #    available_start_point[i,] <- c(NA,NA,NA,NA,NA)
-  #  }
-  #}
+    head(1)
   
   available_end_point <- real.time.data$station %>%
     filter(num_docks_available>0)%>% # Filter stations that have avilable bikes
     mutate(dist=as.vector(distm(cbind(lon,lat), end_point, fun =distGeo)))%>%
-    mutate(bonus=case_when(
-      num_bikes_available <=3 ~ 1,
-      TRUE ~ 0
-    ))%>%
     filter(dist<=1000)%>%
-    select(name,lat,lon,dist,bonus)%>%
     arrange((dist))%>%
-    head(3)
+    select(name,lat,lon,dist,num_bikes_available)
+
   
-  #if(nrow(available_end_point)<3)
-  #{
-  #  for(i in (nrow(available_end_point)+1):3)
-  #  {
-  #    available_end_point[i,] <- c(NA,NA,NA,NA,NA)
-  #  }
-  #}
-  
-  result <- list()
   result$start <- available_start_point
   result$end <- available_end_point
   return(result)
-  
 }

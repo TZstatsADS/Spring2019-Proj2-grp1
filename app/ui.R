@@ -1,8 +1,6 @@
 # Define UI for app
 
-# Define UI for app that draws a histogram ----
-library(leaflet)
-key <- "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk"
+key <- "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk" # Google API
 
 ui <- bootstrapPage(
   # Fill the webpage with the map
@@ -16,20 +14,23 @@ ui <- bootstrapPage(
                 tags$h6("Last Update Time:"),             
                 textOutput("update_time_Box")),
   
+  includeScript("message_handler.js"), # This java script file controls message
   includeCSS("styles.css"), # This css file contains fade out efect for following panel
   # Panel for entering start point and end point
   absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
-                draggable = TRUE, top = 60, left = "auto", right = 18, bottom = "auto",
+                draggable = TRUE, top = 85, left = 18, right = "auto", bottom = "auto",
                 width = 300, height = 300, 
                 h4("Citi Bike Route",align = "center"),
                 
                 fluidRow(
                   column(10, offset = 1,
-                         textInput(inputId = "input_start_point", label = "Start Point"),
-                         textInput(inputId = "input_end_point", label = "End Point"),
+                         textInput(inputId = "input_start_point", label = "From"),
+                         textInput(inputId = "input_end_point", label = "To"),
                          checkboxInput(inputId="input_checkbox",label = "Could you please do us a favor?", value = FALSE),
 
                          actionButton(inputId = "input_go", label = "Let's Go!"),
+                         
+                         ## The following is the autocomplete feature
                          HTML(paste0("
             <script>
             function initAutocomplete() {
@@ -45,10 +46,14 @@ ui <- bootstrapPage(
             async defer></script>
     "))
                          
-                    
+  
                          
                         
-))))
+                          )
+                          )
+
+               )
+)
 
 
 
