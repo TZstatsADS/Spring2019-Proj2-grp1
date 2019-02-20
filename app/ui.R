@@ -14,6 +14,7 @@ ui <- bootstrapPage(
                 tags$h6("Last Update Time:"),             
                 textOutput("update_time_Box")),
   
+  includeScript("message_handler.js"), # This java script file controls message
   includeCSS("styles.css"), # This css file contains fade out efect for following panel
   # Panel for entering start point and end point
   absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
@@ -30,26 +31,29 @@ ui <- bootstrapPage(
                          actionButton(inputId = "input_go", label = "Let's Go!"),
                          
                          ## The following is the autocomplete feature
-    #                      HTML(paste0("
-    #         <script>
-    #         function initAutocomplete() {
-    #         new google.maps.places.Autocomplete(
-    #         (document.getElementById('input_start_point')),{types: ['geocode']}
-    #         );
-    #          new google.maps.places.Autocomplete(
-    #         (document.getElementById('input_end_point')),{types: ['geocode']}
-    #         );
-    #         }
-    #         </script>
-    #         <script src='https://maps.googleapis.com/maps/api/js?key=", key,"&libraries=places&callback=initAutocomplete'
-    #         async defer></script>
-    # ")),
+                         HTML(paste0("
+            <script>
+            function initAutocomplete() {
+            new google.maps.places.Autocomplete(
+            (document.getElementById('input_start_point')),{types: ['geocode']}
+            );
+             new google.maps.places.Autocomplete(
+            (document.getElementById('input_end_point')),{types: ['geocode']}
+            );
+            }
+            </script>
+            <script src='https://maps.googleapis.com/maps/api/js?key=", key,"&libraries=places&callback=initAutocomplete'
+            async defer></script>
+    "))
                          
-  # This java script file controls message
-  includeScript("message_handler.js")
+  
                          
                         
-))))
+                          )
+                          )
+
+               )
+)
 
 
 

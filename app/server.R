@@ -15,7 +15,7 @@ server <- function(input, output) {
 
   # Add dots to map
   observe({
-    ## Re-execute this reactive expression after 1 minute
+    ## Re-execute this reactive expression every minute
     invalidateLater(60000, session = getDefaultReactiveDomain())
     
     ## Refresh the data
@@ -67,7 +67,7 @@ server <- function(input, output) {
                     session$sendCustomMessage(type = 'testmessage',
                                               message = 'No avilable station near start location. Please change the start location.')
                   }
-                 else if((nrow(nearest.available.stations$end)+nrow(nearest.available.stations$bonus))==0)
+                 else if(nrow(nearest.available.stations$end)==0)
                   {
                    session = getDefaultReactiveDomain()
                    session$sendCustomMessage(type = 'testmessage',
@@ -75,28 +75,46 @@ server <- function(input, output) {
                   }
                  else
                   {
+                    final_start_point <- c(nearest.available.stations$start$lon,nearest.available.stations$start$lat)
+                    
                     ## Build icons
                     icon.start <- makeAwesomeIcon(icon = "home", markerColor = "green",
                                                 library = "ion")
                     icon.end <- makeAwesomeIcon(icon = "flag", markerColor = "blue", library = "fa",
                                                   iconColor = "#ffffff")
-                    icon.bonus <- makeAwesomeIcon(icon = "flag", markerColor = "blue", library = "fa",
-                                                iconColor = "#ff9400")
                     
                     ## Plot the icons to the map
                     leafletProxy("map")%>%
+                      removeMarker(layerId = "a")%>%
+                      ### start station
                       addAwesomeMarkers(lng=nearest.available.stations$start$lon,
                                         lat=nearest.available.stations$start$lat,
                                         label=nearest.available.stations$start$name,
-                                        icon=icon.start)%>%
-                      addAwesomeMarkers(lng=nearest.available.stations$end$lon,
-                                        lat=nearest.available.stations$end$lat,
-                                        label=nearest.available.stations$end$name,
-                                        icon=icon.end)%>%
-                      addAwesomeMarkers(lng=nearest.available.stations$bonus$lon,
-                                        lat=nearest.available.stations$bonus$lat,
-                                        label=nearest.available.stations$bonus$name,
-                                        icon=icon.bonus)
+                                        icon=icon.start,
+                                        layerId = "a")
+                    
+                    if(input$input_checkbox == TRUE)
+                    {
+                      nearest.available.stations$end <- nearest.available.stations$end%>%
+                        arrange(num_bikes_available)%>%
+                        head(1)
+                    }
+                    else
+                    {
+                      nearest.available.stations$end <- nearest.available.stations$end%>%
+                        head(1)
+                    }
+
+                    final_end_point <- c(nearest.available.stations$end$lon,nearest.available.stations$end$lat)
+                      ### End station
+                      leafletProxy("map")%>%
+                        removeMarker(layerId = "b")%>%
+                        addAwesomeMarkers(lng=nearest.available.stations$end$lon,
+                                          lat=nearest.available.stations$end$lat,
+                                          label=nearest.available.stations$end$name,
+                                          icon=icon.end,
+                                          layerId = "b")
+                    
                   }
                },
                ignoreNULL = TRUE)
