@@ -10,6 +10,7 @@ library(ggmap)
 library(geosphere)
 library(googleway)
 
+
 # The following is a function named 'real_time_data' that collects the real time data
 # Every time being called, it returns a list of tables
 # Data Scource: http://gbfs.citibikenyc.com/gbfs/gbfs.json
@@ -131,4 +132,5 @@ nearest_available_stations <- function(input_start,input_end,data)
   result$start <- available_start_point
   result$end <- available_end_point
   return(result)
+  
 }

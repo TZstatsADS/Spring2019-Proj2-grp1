@@ -6,12 +6,26 @@ server <- function(input, output) {
     leaflet() %>%
       addTiles(
         urlTemplate = "https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZnJhcG9sZW9uIiwiYSI6ImNpa3Q0cXB5bTAwMXh2Zm0zczY1YTNkd2IifQ.rjnjTyXhXymaeYG6r2pclQ",
+        options = providerTileOptions(minZoom = 13, maxZoom = 15),
         ## Limited using for url in next line
         ## urlTemplate = "https://api.mapbox.com/styles/v1/zy2327/cjs9914pc2grv1fphffp1vt85/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoienkyMzI3IiwiYSI6ImNqczk4ejQxejB0ZnE0NGxvZnAwMHZyMzQifQ.rut7SSkplUDV2URP5nItrw",
         attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
       ) %>%
-      setView(lng = -73.9759, lat = 40.7410, zoom = 13)
+      setView(lng = -73.9759, lat = 40.7410,zoom=13)
   }) 
+  
+  # Weather condition
+  current_nyc_weather <- readLines("https://api.openweathermap.org/data/2.5/weather?id=5128581&APPID=b466e19b342ce7053c55554701fd0d86")%>%
+    RJSONIO::fromJSON(nullValue = NA)
+
+  output$temperature <- renderText({
+    paste0("Current temperature: ",as.character(round(current_nyc_weather$main[1]-273.15))," °C") })
+
+  output$weather_condition <- renderText({
+    paste0("Current weather condition: ",current_nyc_weather[["weather"]][[1]][["description"]])
+  })
+  
+  
 
   # Add dots to map
   observe({
@@ -39,7 +53,7 @@ server <- function(input, output) {
                        lng=real.time.data$station$lon,
                        lat=real.time.data$station$lat,
                        color = real.time.data$station$available_status,
-                       radius = ~3.5,
+                       radius = ~2.75,
                        #radius = ~(real.time.data$station$num_bikes_available/10),
                        stroke = FALSE, 
                        fillOpacity = 0.8,
@@ -57,6 +71,7 @@ server <- function(input, output) {
   ## Text input id: input_start_point,input_end_point
   observeEvent(input$input_go,
                {
+                 
                  ## Get refreshed data
                  real.time.data <- real_time_data()
                  
@@ -80,6 +95,7 @@ server <- function(input, output) {
                  ## Define the final_start_point and final_end_point for drawing the routes
                  else
                   {
+                    
                     ## This is a vector containing two elements: lng and lat
                     final_start_point <- c(nearest.available.stations$start$lon,nearest.available.stations$start$lat)
 
@@ -121,9 +137,13 @@ server <- function(input, output) {
                                         label=nearest.available.stations$end$name,
                                         icon=icon.end,
                                         layerId = "b")
-
+                    ## add the nearest route to the map from the start point to the end 
+                    
+                    
                   }
                },
                ignoreNULL = TRUE)
+  
+
 
 }

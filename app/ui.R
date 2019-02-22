@@ -14,6 +14,13 @@ ui <- bootstrapPage(
                 tags$h6("Last Update Time:"),             
                 textOutput("update_time_Box")),
   
+  # Panel for presenting the weather
+  absolutePanel(top=5,right=5,
+                tags$h6("Weather"),             
+                textOutput("temperature"),
+                textOutput("weather_condition")),
+  
+  
   includeScript("message_handler.js"), # This java script file controls message
   includeCSS("styles.css"), # This css file contains fade out efect for following panel
   # Panel for entering start point and end point
@@ -46,9 +53,6 @@ ui <- bootstrapPage(
             async defer></script>
     "))
                          
-  
-                         
-                        
                           )
                           )
 
