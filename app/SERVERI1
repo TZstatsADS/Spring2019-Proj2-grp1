@@ -1,0 +1,77 @@
+packages.used=c(
+                "leaflet",  "shiny",
+                "data.table","shinyBS") 
+
+# check packages that need to be installed.
+packages.needed=setdiff(packages.used, 
+                        intersect(installed.packages()[,1], 
+                                  packages.used))
+# install additional packages
+if(length(packages.needed)>0){
+  install.packages(packages.needed, dependencies = TRUE)
+}
+
+
+library(leaflet)
+library(shiny)
+library(data.table)
+
+setwd("../")
+
+
+
+
+
+
+
+
+dynamicdata = fread("data/pickupDropoff date_hour.csv", header = TRUE, stringsAsFactors=F)
+
+
+
+
+
+shinyServer(function(input, output,session) { 
+  
+  
+  observeEvent(input$bu,{
+    updateNavbarPage(session = session,"nav", selected = "b")
+  })
+  observeEvent(input$invest,{
+    updateNavbarPage(session = session,"nav", selected = "c")
+  })
+  
+  
+  
+  
+  output$map<- renderLeaflet({
+    leaflet() %>%
+      setView(lat=40.7128, lng=-73.9759, zoom=13) %>%
+      addProviderTiles('CartoDB.Positron')
+  })
+
+  drawvalue <- reactive({
+
+    t <- filter(dynamicdata, pickup_hour == input$hours)
+    return(t)
+  })
+  #
+  observe({
+
+    radius <-  100
+
+    t <- filter(dynamicdata, pickup_hour == input$hours)
+
+    leafletProxy("map", data = t) %>%
+      clearShapes() %>%
+      addCircles(~pickup_longitude, ~pickup_latitude, radius=radius,
+                 stroke=FALSE, fillOpacity=0.5,fillColor = "#DE90F1")
+
+
+  })
+  #
+
+  
+})
+
+
