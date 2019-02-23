@@ -16,27 +16,35 @@ ui <- bootstrapPage(
   
   # Panel for presenting the weather
   absolutePanel(top=5,right=5,
-                tags$h6("Weather"),             
+                tags$h6("Weather"), 
                 textOutput("temperature"),
                 textOutput("weather_condition")),
-  
-  
+  #Color of distance and time
+  tags$style("#times {font-size:15px;
+             font-weight:bold;}"),
+  tags$style("#distances {font-size:15px;
+             font-weight:bold};"),
+
   includeScript("message_handler.js"), # This java script file controls message
   includeCSS("styles.css"), # This css file contains fade out efect for following panel
-  # Panel for entering start point and end point
+  # Panel for entering start point and end point and possibily users' Email-addresses
   absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                 draggable = TRUE, top = 85, left = 18, right = "auto", bottom = "auto",
-                width = 300, height = 300, 
+                width = 300, height = "auto", 
                 h4("Citi Bike Route",align = "center"),
                 
                 fluidRow(
                   column(10, offset = 1,
                          textInput(inputId = "input_start_point", label = "From"),
                          textInput(inputId = "input_end_point", label = "To"),
+                         h5("Don't forget to hit return when you finish entering",align = "center"),
                          checkboxInput(inputId="input_checkbox",label = "Could you please do us a favor?", value = FALSE),
-
+                         conditionalPanel(condition="input.input_checkbox==true",
+                                          textInput(inputId = "enter_email", label = "Please enter your E-mail address")),
                          actionButton(inputId = "input_go", label = "Let's Go!"),
-                         
+                         conditionalPanel(condition="output.nrows==1",
+                                          textOutput("distances"),
+                                          textOutput("times")),
                          ## The following is the autocomplete feature
                          HTML(paste0("
             <script>
