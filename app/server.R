@@ -25,7 +25,6 @@ server <- function(input, output) {
     paste0("Current weather condition: ",current_nyc_weather[["weather"]][[1]][["description"]])
   })
   
-  
 
   # Add dots to map
   observe({
@@ -71,13 +70,12 @@ server <- function(input, output) {
   ## Text input id: input_start_point,input_end_point
   observeEvent(input$input_go,
                {
-                 
+                
                  ## Get refreshed data
                  real.time.data <- real_time_data()
                  
                  ## Use function to get available stations
                  nearest.available.stations <- nearest_available_stations(input$input_start_point,input$input_end_point,real.time.data)
-                 
                  ## If there's no avilable station, prompt a message
                  if(nrow(nearest.available.stations$start)==0)
                   {
@@ -89,7 +87,7 @@ server <- function(input, output) {
                   {
                    session = getDefaultReactiveDomain()
                    session$sendCustomMessage(type = 'testmessage',
-                                             message = 'No avilable station near end location. Please change the end location.')
+                                             message = 'No available station near end location. Please change the end location.')
                  }
                  ## Mark start/end station on the map
                  ## Define the final_start_point and final_end_point for drawing the routes
@@ -126,7 +124,10 @@ server <- function(input, output) {
                       nearest.available.stations$end <- nearest.available.stations$end%>%
                         head(1)
                     }
-                    
+                    output$nrows <- reactive({
+                      min(nrow(nearest.available.stations$start),nrow(nearest.available.stations$end))
+                    })
+                    outputOptions(output, "nrows", suspendWhenHidden=FALSE)
                     ## This is a vector containing two elements: lng and lat
                     final_end_point <- c(nearest.available.stations$end$lon,nearest.available.stations$end$lat)
                       ### End station
@@ -139,7 +140,15 @@ server <- function(input, output) {
                                         layerId = "b")
                     ## add the nearest route to the map from the start point to the end 
                     
-                    
+                    key <-"AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk"
+                    wed_add<-sprintf("https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s,%s&destinations=%s,%s&mode=bicycling&key=%s",nearest.available.stations$start$lat,nearest.available.stations$start$lon,nearest.available.stations$end$lat,nearest.available.stations$end$lon,key)
+                    Route<-fromJSON(wed_add,simplify = FALSE)
+                    Distances<-Route$rows[[1]]$elements[[1]]$distance$text
+                    Times<-Route$rows[[1]]$elements[[1]]$duration$text
+                    output$distances<-renderText({
+                      paste0("Distance: ",Distances)})
+                    output$times<-renderText({
+                      paste0("Estimated Time: ",Times)})
                   }
                },
                ignoreNULL = TRUE)
