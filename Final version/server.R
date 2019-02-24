@@ -2,19 +2,19 @@
 
 #setwd("../") # set file path
 
-server <- shinyServer(function(input, output,session) { 
+server <- function(input, output,session) { 
   
   
   # Home Page
   dynamicdata = fread("pickupDropoff date_hour.csv", header = TRUE, stringsAsFactors=F)
-  
+
   observeEvent(input$bu,{
     updateNavbarPage(session = session,"nav", selected = "b")
   })
   observeEvent(input$invest,{
     updateNavbarPage(session = session,"nav", selected = "c")
   })
-  
+
   output$map_home<- renderLeaflet({
     leaflet() %>%
       setView(lat=40.7128, lng=-73.9759, zoom=13) %>%
@@ -192,6 +192,6 @@ server <- shinyServer(function(input, output,session) {
                },
                ignoreNULL = TRUE)
   
-})
+}
 
 
