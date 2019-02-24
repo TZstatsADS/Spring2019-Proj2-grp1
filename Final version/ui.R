@@ -10,9 +10,8 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
 
                         tags$head(
                           # Include our custom CSS
-                          includeCSS("styles.css")
-                          # ,
-                          # includeScript("gomap.js")
+                          includeCSS("styles.css"),
+                          includeScript("gomap.js")
                         ),
 
                         leafletOutput("map_home",width = "100%",height = "100%"),
@@ -34,7 +33,6 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
                                           bsButton("invest", "Investor", icon("user-tie"),size = "large",style = "warning"))
 
                         ),
-
                         absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                                       draggable = TRUE, top = "60", left = "auto", right = 20, bottom ="auto",
                                       width = "auto", height = "auto",
@@ -64,15 +62,15 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
                       div(class="outer",
                       # Print base map
                       leafletOutput("map", width="100%", height="100%"),
-                      
+
                       # Panel for presenting the last update time
                       absolutePanel(bottom=10,left=10,width="25%",
                                     tags$h6("Last Update Time:"),
                                     textOutput("update_time_Box")),
-                      
+
                       # Panel for presenting the weather
                       absolutePanel(top=15,right=5,
-                                    tags$h6("Weather"), 
+                                    tags$h6("Weather"),
                                     textOutput("temperature"),
                                     textOutput("weather_condition")),
                       #Color of distance and time
@@ -80,15 +78,15 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
                                  font-weight:bold;}"),
                       tags$style("#distances {font-size:15px;
                                  font-weight:bold};"),
-                      
+
                       includeScript("message_handler.js"), # This java script file controls message
                       #includeCSS("styles.css"), # This css file contains fade out efect for following panel
                       # Panel for entering start point and end point and possibily users' Email-addresses
                       absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                                     draggable = TRUE, top = 100, left = 18, right = "auto", bottom = "auto",
-                                    width = 300, height = "auto", 
+                                    width = 300, height = "auto",
                                     h4("Citi Bike Route",align = "center"),
-                                    
+
                                     fluidRow(
                                       column(10, offset = 1,
                                              textInput(inputId = "input_start_point", label = "From"),
@@ -121,49 +119,49 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
                                              )
 
                     ))
-           # ),
-           # 
-           # tabPanel("Business Purpose", value="c",
-           #          tags$a(href='https://www.citibikenyc.com/',   tags$img(src='citibike.jpg', align = "left", width = 150)),
-           #          br(),
-           #          fluidPage(
-           #            h2("This map would help you to figuer out the popular routes to make your advertisements more popular.")
-           #          )),
-           # tabPanel("About",value="d",
-           #          fluidPage(
-           #            tags$a(href='https://www.citibikenyc.com/',   tags$img(src='citibike.jpg', align = "left", width = 150)),
-           #            br(),
-           #            h2("Introduction:"),
-           #            h3("This application is mainly focusing on bringing convinence to bike users, and helping business operations"),
-           #            h3("Features:"),
-           #            h4("1. Real-Time Bike Station Information helps bike users to figuer out the number of bikes in the station."),
-           #            h4("2. Closest Bike Stations offer bike users the best bike stations."),
-           #            h4("3. Offer a Favor gives bike users bonus for delivering bikes to the station with less bikes."),
-           #            h4("4. Offer a Favor helps NYC Citi Bikes with delivering bikes."),
-           #            h4("5. Popular bike stations helps business with advertising"),
-           #            br(),
-           #            
-           #            h3("Team Members:"),
-           #            h4("This Project is developed by:"),
-           #            h4(" Huang, Shengwei:  sh3825@columbia.edu"),
-           #            h4(" Liu, Sitong:  sl4460@columbia.edu"),
-           #            h4(" Wang, Yujie:  yw3285@columbia.edu"),
-           #            h4(" Yang, Zeyu: zy2327@columbia.edu"),
-           #            h4(" Zhang, Zhicheng: zz2555@columbia.edu"),
-           #            br(),
-           #            h4("If you have any idea or questions of this application, please feel free to contact us."),
-           #            br(),
-           #            
-           #            h3("Reference:"),
-           #            h4("Data:https://data.cityofnewyork.us/NYC-BigApps/Citi-Bike-System-Data/vsnr-94wk"),
-           #            h4("Tool: R-studio"),
-           #            img(src='aboutuse.jpg', align = "left", width = 300)
-           #            
-           #            
-           #            
-           #            
-           #          )
-           #          
+           ),
+
+           tabPanel("Business Purpose", value="c",
+                    tags$a(href='https://www.citibikenyc.com/',   tags$img(src='citibike.jpg', align = "left", width = 150)),
+                    br(),
+                    fluidPage(
+                      h2("This map would help you to figuer out the popular routes to make your advertisements more popular.")
+                    )),
+           tabPanel("About",value="d",
+                    fluidPage(
+                      tags$a(href='https://www.citibikenyc.com/',   tags$img(src='citibike.jpg', align = "left", width = 150)),
+                      br(),
+                      h2("Introduction:"),
+                      h3("This application is mainly focusing on bringing convinence to bike users, and helping business operations"),
+                      h3("Features:"),
+                      h4("1. Real-Time Bike Station Information helps bike users to figuer out the number of bikes in the station."),
+                      h4("2. Closest Bike Stations offer bike users the best bike stations."),
+                      h4("3. Offer a Favor gives bike users bonus for delivering bikes to the station with less bikes."),
+                      h4("4. Offer a Favor helps NYC Citi Bikes with delivering bikes."),
+                      h4("5. Popular bike stations helps business with advertising"),
+                      br(),
+
+                      h3("Team Members:"),
+                      h4("This Project is developed by:"),
+                      h4(" Huang, Shengwei:  sh3825@columbia.edu"),
+                      h4(" Liu, Sitong:  sl4460@columbia.edu"),
+                      h4(" Wang, Yujie:  yw3285@columbia.edu"),
+                      h4(" Yang, Zeyu: zy2327@columbia.edu"),
+                      h4(" Zhang, Zhicheng: zz2555@columbia.edu"),
+                      br(),
+                      h4("If you have any idea or questions of this application, please feel free to contact us."),
+                      br(),
+
+                      h3("Reference:"),
+                      h4("Data:https://data.cityofnewyork.us/NYC-BigApps/Citi-Bike-System-Data/vsnr-94wk"),
+                      h4("Tool: R-studio"),
+                      img(src='aboutuse.jpg', align = "left", width = 300)
+
+
+
+
+                    )
+
            )
 )
 

@@ -27,19 +27,17 @@ server <- function(input, output,session) {
   })
 
   observe({
-    radius <-  100
     t <- filter(dynamicdata, pickup_hour == input$hours)
     leafletProxy("map_home", data = t) %>%
       clearShapes() %>%
-      addCircles(~pickup_longitude, ~pickup_latitude, radius=radius,
+      addCircles(~pickup_longitude, ~pickup_latitude, radius=100,
                  stroke=FALSE, fillOpacity=0.5,fillColor = "#DE90F1")
   })
 
   
   
   
-  
-  # Bike uer page
+  # Bike user
   # The base map
   output$map <- renderLeaflet({
     leaflet() %>%
@@ -191,6 +189,10 @@ server <- function(input, output,session) {
                  }
                },
                ignoreNULL = TRUE)
+  
+  
+  
+  
   
 }
 
