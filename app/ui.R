@@ -87,7 +87,7 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
                       #includeCSS("styles.css"), # This css file contains fade out efect for following panel
                       # Panel for entering start point and end point and possibily users' Email-addresses
                       absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
-                                    draggable = TRUE, top = 120, left = 18, right = "auto", bottom = "auto",
+                                    draggable = TRUE, top = 130, left = 18, right = "auto", bottom = "auto",
                                     width = 300, height = "auto",
                                     h4("Citi Bike Route",align = "center"),
 
