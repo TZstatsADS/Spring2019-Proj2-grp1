@@ -41,7 +41,7 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
                                       h2("The hourly change of pick up location"),
                                        sliderInput("hours", "Hours of Day:",
                                                   min = 0, max = 23, value = 0, step = 1,
-                                                  animate=animationOptions(interval = 500)),
+                                                  animate=animationOptions(interval = 1200)),
                                       helpText("Please click the button to see the changes"),
                                       helpText("Data refer to 2018-08-01 from 00:00 to 23:59")
 
