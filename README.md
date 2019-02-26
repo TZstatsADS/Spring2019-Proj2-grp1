@@ -16,11 +16,11 @@ Term: Spring 2019
 This application is mainly focusing on bringing convinence to bike users, and helping business operations.
 
 Features:
-1. Real-Time Bike Station Information helps bike users to figuer out the number of bikes in the station.
-2. Closest Bike Stations offer bike users the best bike stations.
-3. Offer a Favor gives bike users bonus for delivering bikes to the station with less bikes.
-4. Offer a Favor helps NYC Citi Bikes with delivering bikes.
-5. Popular bike stations helps business with advertising
+1. Help bike users figure out the current bike station status
+2. Offer bike users the best closest available bike stations
+3. Give bike users bonus to encourage them to return bikes to the station with bike shortage
+4. Present popular bike stations plot to help business with advertising
+5. Provide updated empty bike stations to Citi bike
 
 + **Project outcome**: 
 
