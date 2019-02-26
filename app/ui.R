@@ -130,7 +130,7 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
                       # br(),
                       # bootstrapPage(
                       
-                      tabPanel('Station Popularity Plot', 
+                      tabPanel('Station Popularity Plot', value='c',
                                #  h3("You may think of making advertisement at popular stations or invest in establishing a new station. This map would help you to figure out station popularity in each census tract."),
                                div(class="outer",
                                    
@@ -189,8 +189,7 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
                                ),
            tabPanel("About",value="d",
                     fluidPage(
-                      tags$a(href='https://www.citibikenyc.com/',   tags$img(src='citibike.jpg', align = "left", width = 50)),
-                      br(),
+                      tags$a(href='https://www.citibikenyc.com/',   tags$img(src='citibike.jpg', align = "left", width = 150)),
                       br(),
                       h2("Introduction:"),
                       h3("This application is mainly focusing on bringing convinence to bike users, and helping business operations"),

@@ -233,10 +233,6 @@ server <- function(input, output,session) {
   
   #for business
   #nearly empty station
-  observe({
-    ## Re-execute this reactive expression every minute
-    invalidateLater(60000, session = getDefaultReactiveDomain())
-    
     ## Refresh the data
     real_time_station_few <- real_time_data()$station %>%
       filter(available_bike_percentage <= 0.1)
@@ -262,7 +258,7 @@ server <- function(input, output,session) {
     empty_station_popup_info <- lapply(seq(nrow(empty_station_popup_info)), function(i) {
       empty_station_popup_info[i,]
     })
-  })
+  
   
   output$emptymap <- renderLeaflet({
     leaflet(data = real_time_station_few) %>%
@@ -296,7 +292,10 @@ server <- function(input, output,session) {
            "<br> Average Usage/month: ", df_merged$average_usage[i], 
            "<br>", "Number of station: ", df_merged$num_station[i]) 
   })
+
   
+  
+  # popular station
   output$popstation <- renderLeaflet({
     leaflet(df_merged) %>%
       addTiles() %>%
