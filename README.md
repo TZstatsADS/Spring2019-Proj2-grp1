@@ -13,7 +13,7 @@ Term: Spring 2019
 
 + **Project summary**: 
 
-This application is mainly focusing on bringing convinence to bike users, and helping business operations.
+This application mainly focuses on bringing convinence to bike users, and helping business operations.
 
 Features:
 1. Help bike users figure out the current bike station status
