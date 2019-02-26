@@ -1,5 +1,5 @@
 library(dplyr)
-###
+### Data from https://s3.amazonaws.com/tripdata/index.html
 
 nycdata <- read.csv("../data/201901-citibike-tripdata.csv", stringsAsFactors = FALSE)
 jcdata <- read.csv("../data/JC-201901-citibike-tripdata.csv", stringsAsFactors = FALSE)
