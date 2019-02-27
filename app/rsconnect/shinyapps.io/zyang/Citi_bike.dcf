@@ -1,0 +1,12 @@
+name: Citi_bike
+title: Citi_bike
+username:
+account: zyang
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 744208
+bundleId: 1904339
+url: https://zyang.shinyapps.io/Citi_bike/
+when: 1551295274.72672
+asMultiple: FALSE
+asStatic: FALSE
