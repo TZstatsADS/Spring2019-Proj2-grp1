@@ -14,6 +14,9 @@ Term: Spring 2019
 + **Project outcome**: 
 
  https://zyang.shinyapps.io/Citi_bike/
+ 
+ 
+![alt text](https://github.com/TZstatsADS/Spring2019-Proj2-grp1/blob/master/doc/figs/Project%20outcome_bike%20users.png)
 
 + **Project summary**: 
 
