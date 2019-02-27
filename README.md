@@ -17,6 +17,9 @@
  <p align="center">
 	<img src="https://github.com/TZstatsADS/Spring2019-Proj2-grp1/blob/master/doc/figs/Project%20outcome_bike%20users.png" width="80%">
 </p>
+<p align="center">
+	<img src="https://github.com/TZstatsADS/Spring2019-Proj2-grp1/blob/master/doc/figs/Project%20outcome_other%20interface.png" width="80%">
+</p>
 
 + **Project summary**: 
 
