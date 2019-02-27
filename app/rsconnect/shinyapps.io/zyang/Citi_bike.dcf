@@ -4,9 +4,9 @@ username:
 account: zyang
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 739663
-bundleId: 1899614
+appId: 743422
+bundleId: 1903797
 url: https://zyang.shinyapps.io/Citi_bike/
-when: 1551143124.06988
+when: 1551282580.54653
 asMultiple: FALSE
 asStatic: FALSE
