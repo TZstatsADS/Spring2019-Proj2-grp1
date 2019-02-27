@@ -15,8 +15,9 @@ Term: Spring 2019
 
  https://zyang.shinyapps.io/Citi_bike/
  
- 
-![alt text](https://github.com/TZstatsADS/Spring2019-Proj2-grp1/blob/master/doc/figs/Project%20outcome_bike%20users.png)
+ <p align="center">
+	<img src="https://github.com/TZstatsADS/Spring2019-Proj2-grp1/blob/master/doc/figs/Project%20outcome_bike%20users.png" width="80%">
+</p>
 
 + **Project summary**: 
 
@@ -33,6 +34,11 @@ Features:
 1. We used real time data to give the most updated information to bike users so that they can find the nearest bike station with available bike accurately.
 
 2. We also updated the users interface, especially for our bike users so that they would find using our updated app more comfortably .(Below is the contrast before and after:) 
+
+<p align="center">
+  <img src="https://github.com/TZstatsADS/Spring2019-Proj2-grp1/blob/master/doc/figs/Project%20outcome_compare%20interface.png" width="40%">
+</p>
+
 
 In our new interface, we added weather, temperature and also the updated time to provide our users useful information about: whether they should ride bike in such weather? Whether there are available bike station nearby?...
 
