@@ -54,7 +54,10 @@ In our new interface, we added weather, temperature and also the updated time to
     - Apply the google API to realize the address autocomplete in the search box on the biker user page(together with Zhicheng Zhang)
     -  Read the last updated time from the data set(output from Zeyu Yang) and link the time to the users interface through the RenderText.
 
-_Liu, Sitong_
+- _Liu, Sitong_
+    - Process and scrape information from historical data to develop the hourly change of pick up station map independently, and apply rigors package to stylize the map with different dot colors (with Shengwei Huang, Zeyu Yang, Yujie Wang)
+    - Write css file and html style to design the app page and help with combining maps together.
+    - Create automatic email reply feature for bonus (Not used in published app)
 
 
 - _Wang, Yujie_
