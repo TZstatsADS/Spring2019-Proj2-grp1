@@ -1,10 +1,9 @@
 # Project 2: Shiny App Development Version 2.0
 
 ## Project Title: Citi Bike Helper
-Term: Spring 2019
 
++ Term: Spring 2019
 + Group 1
-+ Team members
 	+ Huang, Shengwei:  sh3825@columbia.edu
 	+ Liu, Sitong:  sl4460@columbia.edu
 	+ Wang, Yujie:  yw3285@columbia.edu
@@ -47,42 +46,29 @@ In our new interface, we added weather, temperature and also the updated time to
 
 + **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
 
-_Huang, Shengwei_
-
--- Adjust and modify the base map page including fixing the zoom size, fitting the map to the entire webpage and etc.(output from Zeyu Yang)
-
--- Apply the google API to realize the address autocomplete in the search box on the biker user page(together with Zhicheng Zhang)
-
---  Read the last updated time from the data set(output from Zeyu Yang) and link the time to the users interface through the RenderText.
+- _Huang, Shengwei_
+    - Adjust and modify the base map page including fixing the zoom size, fitting the map to the entire webpage and etc.(output from Zeyu Yang)
+    - Apply the google API to realize the address autocomplete in the search box on the biker user page(together with Zhicheng Zhang)
+    -  Read the last updated time from the data set(output from Zeyu Yang) and link the time to the users interface through the RenderText.
 
 _Liu, Sitong_
 
 
-_Wang, Yujie_
+- _Wang, Yujie_
+    - contribute to "for business" part
+    - use coordinates to locate the tract a station belongs to; group the stations by tract, calculate the average usage of bike in stations, and visualize the station popularity in tracts by different colors and popups(station popularity plot).  
+    - apply real_time_data function(developed by Zeyu Yang) to visualize the stations running out of bikes(nearly empty station plot)
+    - generate two interactive lists showing the data used for the two plots
 
-contribute to "for business" part:
+- _Yang, Zeyu_
+    - Process real time data: real time station status data and real time weather data
+    - Custom the base map with mapbox studio and draw the data points and pop up information to it
+    - Develop the feature that returns the nearest available stations, if there are no available stations, then prompt a message
 
--- use coordinates to locate the tract a station belongs to; group the stations by tract, calculate the average usage of bike in stations, and visualize the station popularity in tracts by different colors and popups(station popularity plot).  
-
--- apply real_time_data function(developed by Zeyu Yang) to visualize the stations running out of bikes(nearly empty station plot)
-
--- generate two interactive lists showing the data used for the two plots
-
-_Yang, Zeyu_
-
--- Process real time data: real time station status data and real time weather data
-
--- Custom the base map with mapbox studio and draw the data points and pop up information to it
-
--- Develop the feature that returns the nearest available stations, if there are no available stations, then prompt a message
-
-_Zhang, Zhicheng_
-
--- Adjust and stylize panels in bike user page, display expected time and distance(output from Zeyu Yang)
-
--- Use google API to realize search box address autocompletion in bike user page (together with Shengwei Huang)
-
--- Use write_csv to record email address entered by bike users (idea from Sitong Liu)
+- _Zhang, Zhicheng_
+    - Adjust and stylize panels in bike user page, display expected time and distance(output from Zeyu Yang)
+    - Use google API to realize search box address autocompletion in bike user page (together with Shengwei Huang)
+    - Use write_csv to record email address entered by bike users (idea from Sitong Liu)
 
 
 -------------------------------------------------------------------------------------------------
