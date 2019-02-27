@@ -2,7 +2,7 @@
 
 key <- "AIzaSyC2rGN5ZbV-21zklpgVGnsV-WfdQnNALjk" # Google API
 
-ui <- navbarPage("NYC Citi Bikes", id="nav",
+ui <- navbarPage("Citi Bike Helper", id="nav",
                  
                  tabPanel("Home",value ="a",
 
@@ -96,7 +96,7 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
                                              textInput(inputId = "input_start_point", label = "From"),
                                              textInput(inputId = "input_end_point", label = "To"),
                                              h5("Don't forget to hit return when you finish entering",align = "center"),
-                                             checkboxInput(inputId="input_checkbox",label = "Could you please do us a favor?", value = FALSE),
+                                             checkboxInput(inputId="input_checkbox",label = "Could you please do us a favor?(Checking means you agree to return the bike to a nearby station with bike shortage and you will give a bonus!)", value = FALSE),
                                              conditionalPanel(condition="input.input_checkbox==true",
                                                               textInput(inputId = "enter_email", label = "Please enter your E-mail address")),
                                              actionButton(inputId = "input_go", label = "Let's Go!"),
@@ -214,6 +214,7 @@ ui <- navbarPage("NYC Citi Bikes", id="nav",
                       br(),
 
                       h3("Reference:"),
+                      h4("Github:https://github.com/TZstatsADS/Spring2019-Proj2-grp1"),
                       h4("Data:https://data.cityofnewyork.us/NYC-BigApps/Citi-Bike-System-Data/vsnr-94wk"),
                       h4("Tool: R-studio"),
                       img(src='aboutuse.jpg', align = "left", width = 300)
